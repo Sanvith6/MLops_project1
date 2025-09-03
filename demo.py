@@ -1,4 +1,13 @@
 # demo.py
+import logging
+
+# Suppress PyMongo debug logs
+logging.getLogger("pymongo").setLevel(logging.WARNING)
+
+from pymongo import MongoClient
+
+client = MongoClient("your_connection_string")
+db = client["Proj1"]
 
 from from_root import from_root
 from src.logger import logging  # <- Just importing logging triggers setup
@@ -13,14 +22,7 @@ logging.debug("This is a debug message.")
 
 
 
-# # below code is to check the exception config
-from src.logger import logging
-from src.exception import MyException
-import sys
+from src.pipline.training_pipeline import TrainPipeline
 
-try:
-    a = 1+'Z'
-except Exception as e:
-    logging.info(e)
-#     raise MyException(e, sys) from e
-
+pipline = TrainPipeline()
+pipline.run_pipeline()
